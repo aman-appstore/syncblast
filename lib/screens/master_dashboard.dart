@@ -28,12 +28,22 @@ class MasterDashboard extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // 🎚 Global Equalizer Preview (Visual only for now)
+          // 🎚 Quick Actions
           _buildQuickActions(context),
+
+          // ✨ AI Settings (Ab ye yahan call ho raha hai)
+          _buildAISettings(context, ref),
 
           const Divider(),
 
-          // 📱 Connected Devices List with Individual Volume
+          // 📱 Connected Devices List
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              "CONNECTED DEVICES",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+          ),
           Expanded(
             flex: 2,
             child: ListView.builder(
@@ -43,12 +53,7 @@ class MasterDashboard extends ConsumerWidget {
                 return ListTile(
                   leading: const Icon(Icons.phone_android),
                   title: Text(device.name),
-                  subtitle: Slider(
-                    value: 0.8, // Default 80% volume
-                    onChanged: (val) {
-                      // Logic to send Volume Packet to specific Slave IP
-                    },
-                  ),
+                  subtitle: Slider(value: 0.8, onChanged: (val) {}),
                   trailing: IconButton(
                     icon: Icon(
                       Icons.block,
@@ -94,6 +99,8 @@ class MasterDashboard extends ConsumerWidget {
     );
   }
 
+  // --- Helper Widgets ---
+
   Widget _buildQuickActions(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -117,77 +124,73 @@ class MasterDashboard extends ConsumerWidget {
       ),
     );
   }
-}
 
-Widget _actionButton(
-  BuildContext context,
-  IconData icon,
-  String label,
-  Color color,
-) {
-  return Column(
-    children: [
-      CircleAvatar(
-        backgroundColor: color.withValues(alpha: 0.2),
-        child: Icon(icon, color: color),
-      ),
-      const SizedBox(height: 5),
-      Text(label, style: const TextStyle(fontSize: 10)),
-    ],
-  );
-}
-
-Widget _buildAISettings(BuildContext context, WidgetRef ref) {
-  final ai = ref.watch(aiSettingsProvider);
-
-  return Card(
-    margin: const EdgeInsets.all(16),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    elevation: 5,
-    child: ExpansionTile(
-      leading: const Icon(
-        Icons.psychology,
-        color: Colors.purpleAccent,
-        size: 30,
-      ),
-      title: const Text(
-        "AI SMART CONTROLS",
-        style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
-      ),
-      subtitle: const Text("Auto-optimize sound & mic levels"),
+  Widget _actionButton(
+    BuildContext context,
+    IconData icon,
+    String label,
+    Color color,
+  ) {
+    return Column(
       children: [
-        // 🔊 Auto-Tuning Toggle
-        SwitchListTile(
-          secondary: const Icon(Icons.graphic_eq, color: Colors.cyanAccent),
-          title: const Text("Anti-Distortion AI"),
-          subtitle: const Text("Speaker ko fatne se bachaye"),
-          value: ai.autoTuneEnabled,
-          onChanged: (val) {
-            // AI settings update karne ka logic
-            ref.read(aiSettingsProvider.notifier).state = AISettings(
-              autoTuneEnabled: val,
-              duckingEnabled: ai.duckingEnabled,
-            );
-          },
+        CircleAvatar(
+          backgroundColor: color.withValues(alpha: 0.2),
+          child: Icon(icon, color: color),
         ),
-
-        // 🎙 Ducking Toggle
-        SwitchListTile(
-          secondary: const Icon(
-            Icons.record_voice_over,
-            color: Colors.orangeAccent,
-          ),
-          title: const Text("Smart Ducking"),
-          subtitle: const Text("Mic on hote hi music fade kare"),
-          value: ai.duckingEnabled,
-          onChanged: (val) {
-            ref.read(aiSettingsProvider.notifier).state = AISettings(
-              duckingEnabled: val,
-              autoTuneEnabled: ai.autoTuneEnabled,
-            );
-          },
-        ),
+        const SizedBox(height: 5),
+        Text(label, style: const TextStyle(fontSize: 10)),
       ],
-    ),
-  );
+    );
+  }
+
+  Widget _buildAISettings(BuildContext context, WidgetRef ref) {
+    final ai = ref.watch(aiSettingsProvider);
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 5,
+      child: ExpansionTile(
+        leading: const Icon(
+          Icons.psychology,
+          color: Colors.purpleAccent,
+          size: 30,
+        ),
+        title: const Text(
+          "AI SMART CONTROLS",
+          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
+        ),
+        subtitle: const Text("Auto-optimize sound & mic levels"),
+        children: [
+          SwitchListTile(
+            secondary: const Icon(Icons.graphic_eq, color: Colors.cyanAccent),
+            title: const Text("Anti-Distortion AI"),
+            subtitle: const Text("Speaker ko fatne se bachaye"),
+            value: ai.autoTuneEnabled,
+            onChanged: (val) {
+              ref.read(aiSettingsProvider.notifier).state = AISettings(
+                autoTuneEnabled: val,
+                duckingEnabled: ai.duckingEnabled,
+              );
+            },
+          ),
+          SwitchListTile(
+            secondary: const Icon(
+              Icons.record_voice_over,
+              color: Colors.orangeAccent,
+            ),
+            title: const Text("Smart Ducking"),
+            subtitle: const Text("Mic on hote hi music fade kare"),
+            value: ai.duckingEnabled,
+            onChanged: (val) {
+              ref.read(aiSettingsProvider.notifier).state = AISettings(
+                duckingEnabled: val,
+                autoTuneEnabled: ai.autoTuneEnabled,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

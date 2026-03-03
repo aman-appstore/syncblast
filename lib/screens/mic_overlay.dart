@@ -40,9 +40,15 @@ class _MicOverlayState extends State<MicOverlay> {
                   duration: 600.ms,
                 )
                 .boxShadow(
-                  color: Colors.redAccent.withValues(alpha: 0.5),
-                  blur: 30,
-                ),
+                  begin: const BoxShadow(
+                    color: Colors.transparent,
+                    blurRadius: 0,
+                  ),
+                  end: BoxShadow(
+                    color: Colors.redAccent.withValues(alpha: 0.5),
+                    blurRadius: 30,
+                  ),
+                ), // <--- Ye comma lagana mat bhoolna
 
             const SizedBox(height: 30),
             const Text(
