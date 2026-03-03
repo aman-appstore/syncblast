@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncblast/providers/device_provider.dart';
 import 'package:syncblast/providers/queue_provider.dart';
+import 'package:syncblast/providers/ai_settings_provider.dart';
 
 class MasterDashboard extends ConsumerWidget {
   const MasterDashboard({super.key});
@@ -49,7 +50,10 @@ class MasterDashboard extends ConsumerWidget {
                     },
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.block, color: Colors.red.withOpacity(0.7)),
+                    icon: Icon(
+                      Icons.block,
+                      color: Colors.red.withValues(alpha: 0.7),
+                    ),
                     onPressed: () => ref
                         .read(deviceListProvider.notifier)
                         .removeDevice(device.id),
@@ -113,24 +117,24 @@ class MasterDashboard extends ConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _actionButton(
-    BuildContext context,
-    IconData icon,
-    String label,
-    Color color,
-  ) {
-    return Column(
-      children: [
-        CircleAvatar(
-          backgroundColor: color.withOpacity(0.2),
-          child: Icon(icon, color: color),
-        ),
-        const SizedBox(height: 5),
-        Text(label, style: const TextStyle(fontSize: 10)),
-      ],
-    );
-  }
+Widget _actionButton(
+  BuildContext context,
+  IconData icon,
+  String label,
+  Color color,
+) {
+  return Column(
+    children: [
+      CircleAvatar(
+        backgroundColor: color.withValues(alpha: 0.2),
+        child: Icon(icon, color: color),
+      ),
+      const SizedBox(height: 5),
+      Text(label, style: const TextStyle(fontSize: 10)),
+    ],
+  );
 }
 
 Widget _buildAISettings(BuildContext context, WidgetRef ref) {

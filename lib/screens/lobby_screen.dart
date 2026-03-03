@@ -72,7 +72,7 @@ class LobbyScreen extends ConsumerWidget {
                       ...List.generate(devices.length, (index) {
                         final angle =
                             (index * 2 * math.pi) /
-                            (devices.length > 0 ? devices.length : 1);
+                            (devices.isNotEmpty ? devices.length : 1);
                         const radius = 130.0;
                         final x = radius * math.cos(angle);
                         final y = radius * math.sin(angle);
@@ -146,7 +146,9 @@ class LobbyScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
+        color: Theme.of(
+          context,
+        ).colorScheme.surfaceContainerHighest.withOpacity(0.5),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
       child: Row(

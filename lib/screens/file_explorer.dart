@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncblast/providers/queue_provider.dart';
+import 'package:syncblast/screens/master_dashboard.dart';
 
 class SyncFileExplorer extends ConsumerWidget {
   const SyncFileExplorer({super.key});

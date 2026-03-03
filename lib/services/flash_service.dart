@@ -1,7 +1,7 @@
 import 'package:torch_light/torch_light.dart';
 
 class FlashSyncService {
-  static bool _isOn = false;
+  static final bool _isOn = false;
 
   // ⚡ Beat Detect hone par trigger karna
   static Future<void> triggerFlash() async {

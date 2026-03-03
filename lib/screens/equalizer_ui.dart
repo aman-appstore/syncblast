@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncblast/services/equalizer_engine.dart';
 
 class EqualizerSheet extends ConsumerWidget {
   const EqualizerSheet({super.key});

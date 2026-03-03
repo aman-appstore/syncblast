@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:async';
-import 'package:syncblast/services/network_service.dart';
 
 class AudioEngine {
   static const int chunkSize = 8192; // 8KB ke packets taaki lag na ho
@@ -41,4 +40,12 @@ class AudioEngine {
   void stopStreaming() {
     isStreaming = false;
   }
+
+  static void sendRawCommand(String command, String broadcastIP) {}
+
+  static void streamRawPackets(
+    Uint8List data,
+    String broadcastIP, {
+    required bool isPriority,
+  }) {}
 }

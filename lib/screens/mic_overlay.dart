@@ -25,7 +25,7 @@ class _MicOverlayState extends State<MicOverlay> {
                   padding: const EdgeInsets.all(40),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.redAccent.withOpacity(0.2),
+                    color: Colors.redAccent.withValues(alpha: 0.2),
                   ),
                   child: const Icon(
                     Icons.mic,
@@ -39,7 +39,10 @@ class _MicOverlayState extends State<MicOverlay> {
                   end: const Offset(1.3, 1.3),
                   duration: 600.ms,
                 )
-                .boxShadow(color: Colors.redAccent.withOpacity(0.5), blur: 30),
+                .boxShadow(
+                  color: Colors.redAccent.withValues(alpha: 0.5),
+                  blur: 30,
+                ),
 
             const SizedBox(height: 30),
             const Text(

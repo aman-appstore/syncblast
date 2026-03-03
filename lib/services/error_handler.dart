@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class TribeGuard {
   // 🛡️ Auto-Reconnect Logic
   static void monitorConnection(String masterIP, Function onReconnect) {

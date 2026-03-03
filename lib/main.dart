@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:syncblast/screens/onboarding_screen.dart'; // Hum agle step mein banayenge
 
 void main() {

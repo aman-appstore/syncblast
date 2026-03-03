@@ -35,14 +35,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       } else {
         // SLAVE LOGIC: Open Search Sheet
         ref.read(connectionProvider.notifier).startSearching();
-        _showJoinSheet(context);
+        // Line 38 ke liye:
+        if (mounted) _showJoinSheet(context);
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Permissions Denied! SyncBlast needs them to work."),
-        ),
-      );
+      // Line 41 ke liye:
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Permissions Denied! SyncBlast needs them to work."),
+          ),
+        );
+      }
     }
   }
 
@@ -83,23 +87,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 if (connection.discoveredTribes.isEmpty)
                   const LinearProgressIndicator().animate().shimmer(),
 
-                ...connection.discoveredTribes
-                    .map(
-                      (tribe) => ListTile(
-                        leading: const Icon(
-                          Icons.wifi_tethering,
-                          color: Colors.cyanAccent,
-                        ),
-                        title: Text(tribe['name']!),
-                        subtitle: Text("IP: ${tribe['ip']}"),
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                        onTap: () {
-                          // Logic to connect to this IP (Part 5 mein aayega)
-                          Navigator.pop(context);
-                        },
-                      ),
-                    )
-                    .toList(),
+                ...connection.discoveredTribes.map(
+                  (tribe) => ListTile(
+                    leading: const Icon(
+                      Icons.wifi_tethering,
+                      color: Colors.cyanAccent,
+                    ),
+                    title: Text(tribe['name']!),
+                    subtitle: Text("IP: ${tribe['ip']}"),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () {
+                      // Logic to connect to this IP (Part 5 mein aayega)
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
 
                 const SizedBox(height: 40),
               ],
@@ -132,7 +134,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   Text(
                     "SYNCBLAST",
                     style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontWeight: FontWeight.black,
+                      fontWeight:
+                          FontWeight.w900, // 'black' ki jagah 'w900' use karein
                     ),
                   ),
                   const SizedBox(height: 60),
@@ -171,7 +174,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Widget _buildBackground() {
     return Container(
       color: Colors.black,
-    ).animate().shimmer(color: Colors.deepPurple.withOpacity(0.1));
+    ).animate().shimmer(color: Colors.deepPurple.withValues(alpha: 0.1));
   }
 
   Widget _buildLiquidButton(
@@ -189,8 +192,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: color.withOpacity(0.5)),
-          color: color.withOpacity(0.1),
+          border: Border.all(color: color.withValues(alpha: 0.5)),
+          color: color.withValues(alpha: 0.1),
         ),
         child: Row(
           children: [
